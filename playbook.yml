@@ -1,0 +1,19 @@
+---
+- hosts: localhost
+  become: true  # Use sudo
+  
+  tasks:
+  - name: gather ec2 facts
+    action: ec2_facts
+
+  - name: Install nginx
+    apt:
+      name: nginx
+      state: latest
+      update_cache: yes
+
+  - name: Add user to group root
+    user:
+      name: "{{ user }}"
+      groups: root
+      state: present
