@@ -1,5 +1,5 @@
 provider "aws" {
-  region = "ap-south-1"
+  region  = "ap-south-1"
   profile = "mayank"
 }
 
@@ -17,8 +17,8 @@ resource "aws_iam_role" "ssm_role" {
         Action = "sts:AssumeRole",
       },
     ],
-  }
-  
+    }
+
   )
 }
 
@@ -43,14 +43,14 @@ data "aws_ami" "latest_amazon_linux" {
     name   = "virtualization-type"
     values = ["hvm"]
   }
-  owners = ["amazon"]  # This is the AWS account ID for Amazon-owned AMI
+  owners = ["amazon"] # This is the AWS account ID for Amazon-owned AMI
 }
 
 
 resource "aws_instance" "ssm_instance" {
-  ami           = data.aws_ami.latest_amazon_linux.id  # Update with the appropriate AMI for your region
+  ami           = data.aws_ami.latest_amazon_linux.id # Update with the appropriate AMI for your region
   instance_type = "t2.micro"
-  subnet_id     = "subnet-44f0e02c"  # Specify your subnet ID here
+  subnet_id     = "subnet-44f0e02c" # Specify your subnet ID here
 
   iam_instance_profile = aws_iam_instance_profile.ssm_profile.name
 
@@ -68,7 +68,7 @@ resource "aws_iam_instance_profile" "ssm_profile" {
 resource "aws_security_group" "ssm_sg" {
   name        = "ssm_sg"
   description = "Security group for SSM-managed instance"
-  vpc_id      = "vpc-a1759eca"  # Specify your VPC ID here
+  vpc_id      = "vpc-a1759eca" # Specify your VPC ID here
 
   # SSM requires these ports to be open
   ingress {
